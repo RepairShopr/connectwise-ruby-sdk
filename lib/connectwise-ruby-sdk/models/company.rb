@@ -688,9 +688,9 @@ module ConnectWise
         fail ArgumentError, "identifier cannot be nil"
       end
 
-      if identifier.to_s.length > 25
-        fail ArgumentError, "invalid value for 'identifier', the character length must be smaller than or equal to 25."
-      end
+      # if identifier.to_s.length > 25
+      #   fail ArgumentError, "invalid value for 'identifier', the character length must be smaller than or equal to 25."
+      # end
 
       @identifier = identifier
     end
