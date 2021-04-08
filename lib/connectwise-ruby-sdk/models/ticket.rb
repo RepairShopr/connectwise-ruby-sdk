@@ -191,6 +191,8 @@ module ConnectWise
 
     attr_accessor :custom_fields
 
+    AUTOMATIC_EMAIL_CHRS_COUNT = 10_000
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -851,8 +853,8 @@ module ConnectWise
         invalid_properties.push("invalid value for 'po_number', the character length must be smaller than or equal to 50.")
       end
 
-      if !@automatic_email_cc.nil? && @automatic_email_cc.to_s.length > 1000
-        invalid_properties.push("invalid value for 'automatic_email_cc', the character length must be smaller than or equal to 1000.")
+      if !@automatic_email_cc.nil? && @automatic_email_cc.to_s.length > AUTOMATIC_EMAIL_CHRS_COUNT
+        invalid_properties.push("invalid value for 'automatic_email_cc', the character length must be smaller than or equal to #{AUTOMATIC_EMAIL_CHRS_COUNT}.")
       end
 
       return invalid_properties
@@ -883,7 +885,7 @@ module ConnectWise
       return false unless impact_validator.valid?(@impact)
       return false if !@external_x_ref.nil? && @external_x_ref.to_s.length > 100
       return false if !@po_number.nil? && @po_number.to_s.length > 50
-      return false if !@automatic_email_cc.nil? && @automatic_email_cc.to_s.length > 1000
+      return false if !@automatic_email_cc.nil? && @automatic_email_cc.to_s.length > AUTOMATIC_EMAIL_CHRS_COUNT
       sub_billing_method_validator = EnumAttributeValidator.new('String', ["ActualRates", "FixedFee", "NotToExceed", "OverrideRate"])
       return false unless sub_billing_method_validator.valid?(@sub_billing_method)
       knowledge_base_link_type_validator = EnumAttributeValidator.new('String', ["ServiceTicket", "ProjectTicket", "ProjectIssue", "KnowledgeBaseArticle", "Time", "Activity"])
@@ -1090,8 +1092,8 @@ module ConnectWise
     # @param [Object] automatic_email_cc Value to be assigned
     def automatic_email_cc=(automatic_email_cc)
 
-      if !automatic_email_cc.nil? && automatic_email_cc.to_s.length > 1000
-        fail ArgumentError, "invalid value for 'automatic_email_cc', the character length must be smaller than or equal to 1000."
+      if !automatic_email_cc.nil? && automatic_email_cc.to_s.length > AUTOMATIC_EMAIL_CHRS_COUNT
+        fail ArgumentError, "invalid value for 'automatic_email_cc', the character length must be smaller than or equal to #{AUTOMATIC_EMAIL_CHRS_COUNT}."
       end
 
       @automatic_email_cc = automatic_email_cc
